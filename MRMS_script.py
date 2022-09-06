@@ -1,7 +1,8 @@
 # Script for retrieving, trimming down, and resaving grib2 MRMS files from IEM archive
 
 import os
-#import wget
+import sys
+import wget
 
 # User inputs to define start and end dates for files
 start_year = input('Input starting year:')
@@ -34,6 +35,42 @@ while not valid_input:
 directory_name = input('Please name the directory files will download into:')
 sys.mkdir(directory_name)
 
+# Some kind of loop to create dates list
 
-# wget https://mrms.agron.iastate.edu/2022/08/29/2022082914.zip
-# test
+print('Downloading files now. Depending on the number of hours in your date range, this may take a while. \
+    Each hourly file is approximately 6 GB')
+# Some kind of wget loop
+# feature something like this:
+# url = f'http://mrms.agron.iastate.edu/{year}/{month}/{day}/{year}{month}{day}{hour}.zip'
+# wget.download(url, out='/directory_name')
+
+# url = https://mrms.agron.iastate.edu/2022/08/29/2022082914.zip
+# wget.download(url) https://mrms.agron.iastate.edu/2022/08/29/2022082914.zip
+
+print('File download complete!')
+# Now set the lats and lons for trimming MRMS data
+start_lat = 40.551599
+start_lon = -88.892601
+end_lat = 39.868433
+end_lon = -88.153743
+#Confirm these values with the user
+valid_input = False
+while not valid_input:
+    print(f'The bounds for this analysis are Latitude: {start_lat},{end_lat}; \
+        Longitude: {start_lon}, {end_lon}')
+    confirm_lat_lon = input('Please confirm that these are the lat/lon bounds you need [y/n]')
+    if confirm=='y':
+        print('Okay, beginning trimming process now...')
+        valid_input=True
+    elif confirm=='n':
+        print('Okay, please update the lat/lon bounds now:')
+        start_lat = input('The start latitude is:')
+        start_lon = input('The start longitude is:')
+        end_lat = input('The end latitude is:')
+        end_lon = input('The end longitude is:')
+        print('Okay...')
+    else:
+        print('error: must input y or n')
+
+# Trim process
+# Need to trim both lat/lons and products (only need hourly precip)
