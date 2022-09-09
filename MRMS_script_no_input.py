@@ -21,10 +21,8 @@ end_lat = 39.868433
 end_lon = -88.153743
 
 # Turn values into datetimes
-start_date = datetime(year=int(start_year), month=int(start_month), day=int(start_day), 
-hour=int(start_hour))
-end_date = datetime(year=int(end_year), month=int(end_month), day=int(end_day), 
-hour=int(end_hour))
+start_date = datetime(year=int(start_year), month=int(start_month), day=int(start_day), hour=int(start_hour))
+end_date = datetime(year=int(end_year), month=int(end_month), day=int(end_day), hour=int(end_hour))
 
 # Compute event duration
 duration = end_date - start_date
