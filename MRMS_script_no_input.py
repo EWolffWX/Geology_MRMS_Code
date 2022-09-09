@@ -3,16 +3,16 @@ import sys
 import wget
 from datetime import datetime, timedelta
 
-# Enter your time bounds here:
-start_year = 2022
-start_month = 8
-start_day = 25
-start_hour = 0
+# Enter your time bounds here (in UTC):
+start_year = 2021
+start_month = 10
+start_day = 23
+start_hour = 5
 
-end_year = 2022
-end_month = 8
-end_day = 26
-end_hour = 0
+end_year = 2021
+end_month = 11
+end_day = 1
+end_hour = 4
 
 # Enter lat/lon bounds here:
 start_lat = 40.551599
