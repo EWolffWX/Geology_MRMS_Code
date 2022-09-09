@@ -2,6 +2,8 @@ import os
 import sys
 import wget
 from datetime import datetime, timedelta
+import xarray
+# Note: In addition to the packages listed above, cfgrib will also need to be installed
 
 # Enter your time bounds here (in UTC):
 start_year = 2021
@@ -30,22 +32,23 @@ timedelta_seconds = duration.total_seconds()
 timedelta_hours = timedelta_seconds/3600
 print(timedelta_hours)
 
-cmd = 'mkdir grib_files'
-os.system(cmd)
+# Make directory to output grib files into
+os.system('mkdir grib_files')
+os.system('mkdir clipped_files')
+# Loop through each hour requested
 for i in range(0, int(timedelta_hours)+1, 1):
     new_date = start_date + timedelta(hours=i)
     print(new_date)
-    #s_date = int(new_date.strftime("%Y%m%d%H%M%S"))
     year = new_date.strftime("%Y")
     month = new_date.strftime("%m")
     day = new_date.strftime("%d")
     hour = new_date.strftime("%H")
-    
+    # Create url for hourly file and download from IEM archive
     url = f'http://mrms.agron.iastate.edu/{year}/{month}/{day}/{year}{month}{day}{hour}.zip'
-    #print(url)
     wget.download(url)
-    
+    # Begin processing grib file
     date_string = f'{year}{month}{day}{hour}'
+    # Make temp directory and unzip the grib file
     os.system(f'mkdir {date_string}')
     file_name = f'{date_string}.zip'
     with ZipFile(file_name, 'r') as zip:
@@ -53,6 +56,22 @@ for i in range(0, int(timedelta_hours)+1, 1):
         Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
     os.system(f'gunzip {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_\
     Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
+    # Move unzipped file to output directory
     os.system(f'mv {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_\
     Pass1_00.00_{year}{month}{day}-{hour}0000.grib2 grib_files')
+    # Delete original zip file and temporary directory
+    os.system(f'{date_string}.zip')
     os.system(f'rm -r {date_string}')
+
+    # Open grib file using xarray
+    filepath = 'grib_files/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2'
+    ds = xr.open_dataset(filepath, engine="cfgrib")
+    precip_data = ds['unknown']
+
+    # Insert trim code here...
+
+    #precip_data.to_netcdf(f'clipped_files/{date_string}')
+
+
+# Now delete the unclipped grib file directory
+#os.system('rm -r grib_files')
