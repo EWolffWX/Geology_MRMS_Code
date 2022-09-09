@@ -21,8 +21,10 @@ end_lat = 39.868433
 end_lon = -88.153743
 
 # Turn values into datetimes
-start_date = datetime(year=int(start_year), month=int(start_month), day=int(start_day), hour=int(start_hour))
-end_date = datetime(year=int(end_year), month=int(end_month), day=int(end_day), hour=int(end_hour))
+start_date = datetime(year=int(start_year), month=int(start_month), day=int(start_day), 
+hour=int(start_hour))
+end_date = datetime(year=int(end_year), month=int(end_month), day=int(end_day), 
+hour=int(end_hour))
 
 # Compute event duration
 duration = end_date - start_date
@@ -49,10 +51,10 @@ for i in range(0, int(timedelta_hours)+1, 1):
     os.system(f'mkdir {date_string}')
     file_name = f'{date_string}.zip'
     with ZipFile(file_name, 'r') as zip:
-        zip.extract(f'{date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
-    cmd = f'gunzip {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz'
-    os.system(cmd)
-    cmd = f'mv {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2 grib_files'
-    os.system(cmd)
-    cmd = f'rm -r {date_string}'
-    os.system(cmd)
+        zip.extract(f'{date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_
+        Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
+    os.system(f'gunzip {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_
+    Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
+    os.system(f'mv {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_
+    Pass1_00.00_{year}{month}{day}-{hour}0000.grib2 grib_files')
+    os.system(f'rm -r {date_string}')
