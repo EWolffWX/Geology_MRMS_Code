@@ -53,12 +53,12 @@ for i in range(0, int(timedelta_hours)+1, 1):
     file_name = f'{date_string}.zip'
     with ZipFile(file_name, 'r') as zip:
         zip.extract(f'{date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_'\
-            'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
+            f'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
     os.system(f'gunzip {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_'\
-        'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
+        f'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2.gz')
     # Move unzipped file to output directory
     os.system(f'mv {date_string}/CONUS/MultiSensor_QPE_01H_Pass1/MRMS_MultiSensor_QPE_01H_'\
-        'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2 grib_files')
+        f'Pass1_00.00_{year}{month}{day}-{hour}0000.grib2 grib_files')
     # Delete original zip file and temporary directory
     os.system(f'{date_string}.zip')
     os.system(f'rm -r {date_string}')
