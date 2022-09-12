@@ -4,6 +4,7 @@ import wget
 from datetime import datetime, timedelta
 import xarray as xr
 from zipfile import ZipFile
+import numpy as np
 # Note: In addition to the packages listed above, cfgrib will also need to be installed
 
 # Enter your time bounds here (in UTC):
@@ -16,12 +17,6 @@ end_year = 2021
 end_month = 11
 end_day = 1
 end_hour = 4
-
-# Enter lat/lon bounds here:
-start_lat = 40.551599
-start_lon = -88.892601
-end_lat = 39.868433
-end_lon = -88.153743
 
 # Turn values into datetimes
 start_date = datetime(year=int(start_year), month=int(start_month), day=int(start_day), \
@@ -70,12 +65,15 @@ for i in range(0, int(timedelta_hours)+1, 1):
     filepath = 'grib_files/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2'
     ds = xr.open_dataset(filepath, engine="cfgrib")
     precip_data = ds['unknown']
-
-    # Insert trim code here...
-    # Also sum up data files by creating a zero array outside the loop and adding each file to it
-
-    #precip_data.to_netcdf(f'clipped_files/{date_string}.nc4')
-
+    
+    # Trim the xarray dataset
+    # Note: Due to the nature of the grib files, trimming is done based on index, rather than
+    # lats and lons. In order to change the spatial domain, you would need to experiment with 
+    # different index bounds.
+    cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
+    # Save the trimmed dataset as a netCDF file in the clipped_files directory
+    cropped_data.to_netcdf(path=f'../clipped_files/{date_string}.nc')
 
 # Now delete the unclipped grib file directory
-#os.system('rm -r grib_files')
+os.system('rm -r grib_files')
+
