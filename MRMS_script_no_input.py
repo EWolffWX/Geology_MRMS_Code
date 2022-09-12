@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import xarray as xr
 from zipfile import ZipFile
 import numpy as np
+import matplotlib.pyplot as plt
 # Note: In addition to the packages listed above, cfgrib will also need to be installed
 
 # Enter your time bounds here (in UTC):
@@ -33,6 +34,7 @@ print(timedelta_hours)
 # Make directory to output grib files into
 os.system('mkdir grib_files')
 os.system('mkdir clipped_files')
+os.system('mkdir clipped_files/quick_looks')
 # Loop through each hour requested
 for i in range(0, int(timedelta_hours)+1, 1):
     new_date = start_date + timedelta(hours=i)
@@ -71,8 +73,11 @@ for i in range(0, int(timedelta_hours)+1, 1):
     # lats and lons. In order to change the spatial domain, you would need to experiment with 
     # different index bounds.
     cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
+    cropped_data = cropped_data.rename(unknown='hourly_precip')
     # Save the trimmed dataset as a netCDF file in the clipped_files directory
     cropped_data.to_netcdf(path=f'../clipped_files/{date_string}.nc')
+    # Create quick-look image of this hourly timestep
+    # Will add this later...
 
 # Now delete the unclipped grib file directory
 os.system('rm -r grib_files')

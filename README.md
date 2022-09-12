@@ -9,6 +9,7 @@ Running this script will require the following packages to be downloaded:
 - xarray
 - cfgrib
 - numpy
+- matplotlib
 
 ### Operating System Requirements
 Additionally, in it's current form, this code is designed to be run on a computer with the Linux operating system as some lines execute Linux commands (such as creating directories and deleting files)
