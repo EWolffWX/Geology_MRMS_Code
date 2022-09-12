@@ -73,9 +73,9 @@ for i in range(0, int(timedelta_hours)+1, 1):
     # lats and lons. In order to change the spatial domain, you would need to experiment with 
     # different index bounds.
     cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
-    cropped_data = cropped_data.rename(unknown='hourly_precip')
     # Save the trimmed dataset as a netCDF file in the clipped_files directory
-    cropped_data.to_netcdf(path=f'../clipped_files/{date_string}.nc')
+    path = os.popen('pwd').read()[:-1]
+    cropped_data.to_netcdf(path=f'{path}/clipped_files/{date_string}.nc')
     # Create quick-look image of this hourly timestep
     # Will add this later...
 
