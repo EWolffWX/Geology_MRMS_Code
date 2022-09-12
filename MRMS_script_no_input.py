@@ -64,7 +64,7 @@ for i in range(0, int(timedelta_hours)+1, 1):
     os.system(f'rm -r {date_string}')
 
     # Open grib file using xarray
-    filepath = 'grib_files/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2'
+    filepath = f'grib_files/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2'
     ds = xr.open_dataset(filepath, engine="cfgrib")
     precip_data = ds['unknown']
 
