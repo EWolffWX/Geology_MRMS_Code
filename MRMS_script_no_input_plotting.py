@@ -75,11 +75,10 @@ for i in range(0, int(timedelta_hours)+1, 1):
     # different index bounds.
     cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
     # Save the trimmed dataset as a netCDF file in the clipped_files directory
-    path = os.popen('pwd').read()[:-1]
-    cropped_data.to_netcdf(path=f'{path}/clipped_files/{date_string}.nc')
+    cropped_data.to_netcdf(path=f'clipped_files/{date_string}.nc')
     # Create quick-look image of this hourly timestep
     # Will add this later...
-    
+
 
 # Now delete the unclipped grib file directory
 os.system('rm -r grib_files')
