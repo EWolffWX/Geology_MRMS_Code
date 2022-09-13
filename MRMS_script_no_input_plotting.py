@@ -5,7 +5,11 @@ from datetime import datetime, timedelta
 import xarray as xr
 from zipfile import ZipFile
 import numpy as np
+
 import matplotlib.pyplot as plt
+from metpy.plots import USCOUNTIES
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 # Note: In addition to the packages listed above, cfgrib will also need to be installed
 
 # Enter your time bounds here (in UTC):
@@ -76,8 +80,32 @@ for i in range(0, int(timedelta_hours)+1, 1):
     cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
     # Save the trimmed dataset as a netCDF file in the clipped_files directory
     cropped_data.to_netcdf(path=f'clipped_files/{date_string}.nc')
+    
     # Create quick-look image of this hourly timestep
-    # Will add this later...
+    lats = cropped_data.latitude
+    lons = cropped_data.longitude
+    # Set projections
+    map_crs = ccrs.PlateCarree(central_longitude=0.0, globe=None)
+    data_crs = ccrs.PlateCarree()
+    # Set up figure and axis
+    fig = plt.figure(1, figsize=(11,12))
+    ax = plt.subplot(1, 1, 1, projection=map_crs)
+    ax.set_extent([-88.892601, -88.153743, 39.868433 , 40.551599], data_crs)
+    # Set max and min values to be displayed on map
+    vmin = 0
+    vmax = 200
+    # Plot data
+    im = ax.pcolormesh(lons, lats, cropped_data, transform=data_crs, cmap='gist_ncar', vmin=vmin, vmax=vmax)
+    # Add any helpful map overlays
+    ax.add_feature(USCOUNTIES.with_scale('5m'), edgecolor='darkgray')
+    # Create plot title and colorbar
+    plt.title('MRMS Multi-Sensor 1 hr QPE (Pass 1)', loc='left')
+    plt.title(f'{month}/{day}/{year} {hour}:00', loc='right')
+    cb = plt.colorbar(im, orientation='horizontal', pad=.02)
+    cb.set_label('Precipitation (mm)', fontsize=10)
+    # Save figure into quick looks folder
+    plt.savefig(f'clipped_files/quick_looks/{date_string}', dpi=50, bbox_inches='tight')
+    plt.close()
 
 
 # Now delete the unclipped grib file directory
