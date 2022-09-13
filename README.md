@@ -10,7 +10,7 @@ Running this script will require the following packages to be downloaded:
 - cfgrib
 - numpy
 
-If you want to to create quick look image files, you will also need
+If you want to create quick look image files, you will also need:
 - matplotlib
 - cartopy
 - metpy
