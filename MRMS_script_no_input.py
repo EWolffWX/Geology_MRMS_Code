@@ -66,7 +66,8 @@ for i in range(0, int(timedelta_hours)+1, 1):
     # Open grib file using xarray
     filepath = f'grib_files/MRMS_MultiSensor_QPE_01H_Pass1_00.00_{year}{month}{day}-{hour}0000.grib2'
     ds = xr.open_dataset(filepath, engine="cfgrib")
-    precip_data = ds['unknown']
+    ds = ds.rename(unknown='hourly_precip')
+    precip_data = ds['hourly_precip']
 
     # Trim the xarray dataset
     # Note: Due to the nature of the grib files, trimming is done based on index, rather than
