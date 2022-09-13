@@ -80,7 +80,7 @@ for i in range(0, int(timedelta_hours)+1, 1):
     cropped_data = precip_data[np.arange(1444, 1515, 1), np.arange(4110, 4186, 1)]
     # Save the trimmed dataset as a netCDF file in the clipped_files directory
     cropped_data.to_netcdf(path=f'clipped_files/{date_string}.nc')
-    
+
     # Create quick-look image of this hourly timestep
     lats = cropped_data.latitude
     lons = cropped_data.longitude
@@ -95,7 +95,8 @@ for i in range(0, int(timedelta_hours)+1, 1):
     vmin = 0
     vmax = 200
     # Plot data
-    im = ax.pcolormesh(lons, lats, cropped_data, transform=data_crs, cmap='gist_ncar', vmin=vmin, vmax=vmax)
+    im = ax.pcolormesh(lons, lats, cropped_data, transform=data_crs, 
+                        cmap='gist_ncar', vmin=vmin, vmax=vmax)
     # Add any helpful map overlays
     ax.add_feature(USCOUNTIES.with_scale('5m'), edgecolor='darkgray')
     # Create plot title and colorbar
