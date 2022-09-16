@@ -103,7 +103,7 @@ for i in range(0, int(timedelta_hours)+1, 1):
     plt.title('MRMS Multi-Sensor 1 hr QPE (Pass 1)', loc='left')
     plt.title(f'{month}/{day}/{year} {hour}:00', loc='right')
     cb = plt.colorbar(im, orientation='horizontal', pad=.02)
-    cb.set_label('Precipitation (mm)', fontsize=10)
+    cb.set_label('Precipitation (units)', fontsize=10)
     # Save figure into quick looks folder
     plt.savefig(f'clipped_files/quick_looks/{date_string}', dpi=50, bbox_inches='tight')
     plt.close()
