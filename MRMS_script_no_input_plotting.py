@@ -93,7 +93,7 @@ for i in range(0, int(timedelta_hours)+1, 1):
     ax.set_extent([-88.892601, -88.153743, 39.868433 , 40.551599], data_crs)
     # Set max and min values to be displayed on map
     vmin = 0
-    vmax = 200
+    vmax = 20
     # Plot data
     im = ax.pcolormesh(lons, lats, cropped_data, transform=data_crs, 
                         cmap='gist_ncar', vmin=vmin, vmax=vmax)
